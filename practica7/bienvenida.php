@@ -15,9 +15,9 @@ $casa_seleccionada = $casas[array_rand($casas)];
 
 echo "
 <div style='text-align: center;'>
-    <div style='background-color: " . $casas_info[$casa_seleccionada]['message_background'] . "; color: " . $casas_info[$casa_seleccionada]['text_color'] . ";'>
-        <h3>Bienvenido a tu nueva casa en Hogwarts</h3>
-        <p style='color: " . $casas_info[$casa_seleccionada]['text_color'] . ";'>" . $casas_info[$casa_seleccionada]['welcome_message'] . "</p>
+    <div style='background-color: " . $casas_info[$casa_seleccionada]['message_background'] . ";'>
+        <h3 style='color: " . $casas_info[$casa_seleccionada]['text_color'] . ";'>Bienvenido a tu nueva casa en Hogwarts</h3>
+        <p style='color: " . $casas_info[$casa_seleccionada]['text_color'] . ";'>" . $casas_info[$casa_seleccionada]['welcome_message'] ."</p>
         <img src='" . $casas_info[$casa_seleccionada]['image'] . "' alt='imagen'>
     </div>
 </div>";
