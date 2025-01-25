@@ -28,6 +28,7 @@ $cartaInicial = array_shift($baraja->conjunto_cartas);
     $_SESSION['jugadores'] = $jugadores;
     $_SESSION['cartaInicial'] = $cartaInicial;
     $_SESSION['numeroDeJugadors'] = $numeroDeJugadors;
+    $_SESSION['numeroDeCartes'] = $numeroDeCartes;
 
 echo '<h1>Carta En Mesa</h1>';
 $cartaInicial->pinta_carta();

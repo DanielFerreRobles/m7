@@ -1,79 +1,93 @@
 <?php
+include 'jugador.class.php';
 session_start();
 
 class Partida {
-    public $numeroDeJugadores;
-    public $numeroDeCartas;
+    public $numero_jugadores;
+    public $numero_cartas;
     public $turno;
     public $baraja;
-    public $cartaEnMesa;
-    public $arrayJugadores;
-    public $sentido;
+    public $carta_en_mesa;
+    public $array_jugadores;
+    public $constante_sentido;
 
-    public function __construct($numeroDeJugadores, $numeroDeCartas) {
-            $this->numeroDeJugadores = $numeroDeJugadores;
-            $this->numeroDeCartas = $numeroDeCartas;
+    public function __construct($numero_jugadores, $numero_cartas) {
+        if (isset($_SESSION['partida'])) {
+            $this->numero_jugadores ='numeroDeJugadors';
+            $this->numero_cartas = 'numeroDeCartes';
+            $this->turno = 'turno';
+            $this->array_jugadores ='arrayJugadores';
+            $this->carta_en_mesa = 'cartaEnMesa';
+            $this->baraja = 'baraja';
+        } else {
+            $this->numero_jugadores = $numero_jugadores;
+            $this->numero_cartas = $numero_cartas;
             $this->turno = 0;
-            $this->arrayJugadores = [];
+            $this->array_jugadores = [];
+            $this->constante_sentido = 1;
             $this->baraja = new Baraja();
 
+            for ($jugador = 0; $jugador < $this->numero_jugadores; $jugador++) {
+                $jugador = new Jugador();
+                $this->array_jugadores[$jugador] = array_splice($this->baraja->conjunto_cartas, 0, $this->numero_cartas);
+            }
 
-            $this->cartaEnMesa = array_shift($this->baraja->conjunto_cartas);
+            $this->carta_en_mesa = array_shift($this->baraja->conjunto_cartas);
             echo "<p>Carta sobre la mesa:</p>";
-            $this->cartaEnMesa->pinta_carta();
+            $this->carta_en_mesa->pinta_carta();
 
+            $this->guardarPartida();
+        }
+    }
+
+    public function guardarPartida() {
         $_SESSION['partida'] = [
-            'numeroDeJugadores' => $this->numeroDeJugadores,
-            'numeroDeCartas' => $this->numeroDeCartas,
+            'numeroDeJugadors' => $this->numero_jugadores,
+            'numeroDeCartes' => $this->numero_cartas,
             'turno' => $this->turno,
-            'arrayJugadores' => $this->arrayJugadores,
-            'cartaEnMesa' => $this->cartaEnMesa,
-        ];            
-           $partidaGuardada = $_SESSION['partida'];
-
-           $_SESSION['numeroDeJugadores'] = $partidaGuardada['numeroDeJugadores'];
-           $_SESSION['numeroDeCartas'] = $partidaGuardada['numeroDeCartas'];
-           $_SESSION['turno'] = $partidaGuardada['turno'];
-           $_SESSION['arrayJugadores'] = $partidaGuardada['arrayJugadores'];
-           $_SESSION['cartaEnMesa'] = $partidaGuardada['cartaEnMesa'];
-           
-           $this->numeroDeJugadores = $_SESSION['numeroDeJugadores'];
-           $this->numeroDeCartas = $_SESSION['numeroDeCartas'];
-           $this->turno = $_SESSION['turno'];
-           $this->arrayJugadores = $_SESSION['arrayJugadores'];
-           $this->cartaEnMesa = $_SESSION['cartaEnMesa'];
-           $this->jugadores = $_SESSION['jugadores'];
+            'arrayJugadores' => $this->array_jugadores,
+            'cartaEnMesa' => $this->carta_en_mesa,
+            'baraja' => $this->baraja,
+        ];
     }
 
     public function jugar() {
-        $jugadorActual = $this->arrayJugadores[$this->turno];
-        $manoActual = $jugadorActual->mano;
+        $jugadorActual = $this->array_jugadores[$this->turno];
 
-        foreach ($manoActual as $carta) {
+        foreach ($jugadorActual->mano as $carta) {
             if ($_GET['numeroTipocarta'] == $carta->numeroTipoCarta || $_GET['color'] == $carta->colorDeCarta) {
-                $cartaEnMesa = $carta;
+                $this->carta_en_mesa = $carta;
                 $jugadorActual->eliminar_carta($carta);
-                $carta->pinta_carta();
-
-                $this->cambiaTurno();
+                $this->carta_en_mesa->pinta_carta();
+                $this->cambiarTurno();
             } else {
                 $nuevaCartaRobada = array_shift($this->baraja->conjunto_cartas);
                 $jugadorActual->afegir_carta($nuevaCartaRobada);
-                $nuevaCartaRobada->pinta_carta();
+            }
+            if ($carta->numeroTipoCarta == 'reverse') {
+                $this->cambiarSentido();
             }
         }
 
         if (count($jugadorActual->mano) == 0) {
             echo "El jugador " . $jugadorActual . " ha ganado";
         }
+
+        $this->guardarPartida();
     }
 
-        public function cambiaTurno() {
-            for ($this->turno; $this->turno < $this->numeroDeJugadores; $this->turno++) {
-                if ($this->turno >= $this->numeroDeJugadores) {
-                    $this->turno = 0;
-                }
+    public function cambiarTurno() {
+        for ($this->turno; $this->turno < $this->numeroDeJugadores; $this->turno++) {
+            if ($this->turno >= $this->numeroDeJugadores) {
+                $this->turno = 0;
             }
-        }        
+        }
+    
     }
+
+    public function cambiarSentido() {
+        $this->constante_sentido = -1;
+    }
+
+}
 ?>
