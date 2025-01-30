@@ -15,6 +15,9 @@
             <h1>ADAPTER</h1>
             <p class="lead text-justify">Permite que objetos con interfaces incompatibles trabajen juntos.</p>
         </div>
+        <div>
+            <img src="https://th.bing.com/th/id/R.db2d1e39637bc07ab9f265309a3a5046?rik=7JElFeMtC0dCkA&pid=ImgRaw&r=0" alt="adapter" class="img-fluid d-block mx-auto" width="200">
+        </div>
 
         <div class="row">
             <div class="col-md-6">

@@ -14,6 +14,14 @@
             <h1>FACTORY METHOD</h1>
             <p class="lead text-justify">Permite a las subclases decidir qué tipo de objetos crear, a la vez que usa una interfaz habitual en la superclase.</p>
         </div>
+        <div>
+            <img src="https://img.freepik.com/fotos-premium/dibujo-fabrica-que-sale-humo_786255-1333.jpg" alt="fab" class="img-fluid d-block mx-auto" width="200">
+        </div>
+
+
+
+
+
 
         <div class="row">
             <div class="col-md-6">
