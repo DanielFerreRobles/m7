@@ -2,10 +2,10 @@
 
 if (isset($_POST['patron'])) {
     if (($_POST['patron']=='adapter')){
-        header("Location: adapter.php");             
+        header("Location: patrones/adapter.php");             
     }
     else{
-        header("Location: bridge.php");             
+        header("Location: patrones/bridge.php");             
     }
     exit();
 }

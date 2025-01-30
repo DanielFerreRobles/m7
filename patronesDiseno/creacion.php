@@ -2,10 +2,10 @@
 
 if (isset($_POST['patron'])) {
     if (($_POST['patron']=='singleton')){
-        header("Location: singleton.php");             
+        header("Location: patrones/singleton.php");             
     }
     else{
-        header("Location: factory.php");             
+        header("Location: patrones/factory.php");             
     }
     exit();
 }

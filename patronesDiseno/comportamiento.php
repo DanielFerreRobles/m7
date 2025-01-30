@@ -2,10 +2,10 @@
 
 if (isset($_POST['patron'])) {
     if (($_POST['patron']=='observer')){
-        header("Location: observer.php");             
+        header("Location: patrones/observer.php");             
     }
     else{
-        header("Location: strategy.php");             
+        header("Location: patrones/strategy.php");             
     }
     exit();
 }
