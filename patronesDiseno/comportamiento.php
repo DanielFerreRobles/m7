@@ -1,11 +1,11 @@
 <?php
 
 if (isset($_POST['patron'])) {
-    if (($_POST['patron']=='singleton')){
-        header("Location: singleton.php");             
+    if (($_POST['patron']=='observer')){
+        header("Location: observer.php");             
     }
     else{
-        header("Location: factory.php");             
+        header("Location: strategy.php");             
     }
     exit();
 }
@@ -35,8 +35,8 @@ if (isset($_POST['patron'])) {
         </div>
         <form method="post" class="mt-4">
             <select name="patron" class="form-select w-50 mx-auto">
-                <option value="singleton">Observer</option>
-                <option value="factory">Strategy</option>
+                <option value="observer">Observer</option>
+                <option value="strategy">Strategy</option>
             </select>
             <button type="submit" class="btn btn-primary mt-3">Ver información</button>
         </form>
