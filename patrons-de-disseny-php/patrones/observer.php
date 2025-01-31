@@ -10,6 +10,8 @@
 
 <?php include '../header.php'; ?>
 
+<?php include '../nav.php'; ?>
+
     <div class="container text-center mt-5">
         <h1 class="mb-4">OBSERVER</h1>
         <p class="lead mb-4 text-justify">Permite que un objeto notifique automáticamente a otros cuando cambia.</p>

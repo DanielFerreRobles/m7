@@ -23,6 +23,8 @@ if (isset($_POST['patron'])) {
 
 <?php include 'header.php'; ?>
 
+<?php include 'nav.php'; ?>
+
     <div class="container mt-5 text-center">
         <h1>Patrones de Creación</h1>
         <p class="lead">Los patrones de diseño de creación son soluciones para la creación de objetos. Estos patrones ayudan a incrementar la flexibilidad y la reutilización del código con sus mecanismos de creación de objetos. Aquí te muestro 2 de patrones de creación:</p>

@@ -12,6 +12,8 @@
 
 <?php include '../header.php'; ?>
 
+<?php include '../nav.php'; ?>
+
     <div class="container mt-5">
         <div class="text-center mb-5">
             <h1>FACTORY METHOD</h1>

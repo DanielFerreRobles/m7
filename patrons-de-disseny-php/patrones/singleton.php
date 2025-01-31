@@ -11,6 +11,8 @@
 
     <?php include '../header.php'; ?>
 
+    <?php include '../nav.php'; ?>
+
         <h1 class="mb-4">SINGLETON</h1>
         <p class="lead mb-4 text-justify">Con Singleton nos aseguramos de que una clase tenga una única instancia a la que podemos acceder de forma global.</p>
         

@@ -23,6 +23,8 @@ if (isset($_POST['patron'])) {
 
 <?php include 'header.php'; ?>
 
+<?php include 'nav.php'; ?>
+
     <div class="container mt-5 text-center">
         <h1>Patrones de Comportamiento</h1>
         <p class="lead">Los patrones de diseño de comportamiento ayudan a los objetos a trabajar mejor entre ellos, reutilizar el código y permiten construir aplicaciones más flexibles y fáciles de actualizar. Aquí te muestro 2 de patrones de comportamiento:</p>
