@@ -8,6 +8,9 @@
 </head>
 <body>
     <div class="container text-center mt-5">
+
+    <?php include '../header.php'; ?>
+
         <h1 class="mb-4">SINGLETON</h1>
         <p class="lead mb-4 text-justify">Con Singleton nos aseguramos de que una clase tenga una única instancia a la que podemos acceder de forma global.</p>
         

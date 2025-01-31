@@ -20,6 +20,9 @@ if (isset($_POST['patron'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+
+<?php include 'header.php'; ?>
+
     <div class="container mt-5 text-center">
         <h1>Patrones de Comportamiento</h1>
         <p class="lead">Los patrones de diseño de comportamiento ayudan a los objetos a trabajar mejor entre ellos, reutilizar el código y permiten construir aplicaciones más flexibles y fáciles de actualizar. Aquí te muestro 2 de patrones de comportamiento:</p>

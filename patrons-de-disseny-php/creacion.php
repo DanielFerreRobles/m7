@@ -20,6 +20,9 @@ if (isset($_POST['patron'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+
+<?php include 'header.php'; ?>
+
     <div class="container mt-5 text-center">
         <h1>Patrones de Creación</h1>
         <p class="lead">Los patrones de diseño de creación son soluciones para la creación de objetos. Estos patrones ayudan a incrementar la flexibilidad y la reutilización del código con sus mecanismos de creación de objetos. Aquí te muestro 2 de patrones de creación:</p>

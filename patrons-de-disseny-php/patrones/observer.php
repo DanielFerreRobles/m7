@@ -7,6 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<?php include '../header.php'; ?>
+
     <div class="container text-center mt-5">
         <h1 class="mb-4">OBSERVER</h1>
         <p class="lead mb-4 text-justify">Permite que un objeto notifique automáticamente a otros cuando cambia.</p>
