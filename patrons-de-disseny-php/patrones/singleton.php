@@ -7,12 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<?php include '../header.php'; ?>
+
+<?php include '../nav.php'; ?>
+
     <div class="container text-center mt-5">
-
-    <?php include '../header.php'; ?>
-
-    <?php include '../nav.php'; ?>
-
         <h1 class="mb-4">SINGLETON</h1>
         <p class="lead mb-4 text-justify">Con Singleton nos aseguramos de que una clase tenga una única instancia a la que podemos acceder de forma global.</p>
         
