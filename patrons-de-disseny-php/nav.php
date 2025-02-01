@@ -7,16 +7,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/patrons-de-disseny-php/estructurales.php">Patrones Estructurales</a>
+          <a class="nav-link" href="/estructurales.php">Patrones Estructurales</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/patrons-de-disseny-php/creacion.php">Patrones de Creación</a>
+          <a class="nav-link" href="/creacion.php">Patrones de Creación</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/patrons-de-disseny-php/comportamiento.php">Patrones de Comportamiento</a>
+          <a class="nav-link" href="/comportamiento.php">Patrones de Comportamiento</a>
         </li>
       </ul>
-      <a href="/patrons-de-disseny-php/index.php" class="btn btn-outline-light ms-3">
+      <a href="/index.php" class="btn btn-outline-light ms-3">
         <i class="bi bi-house-door"></i> 🏠
       </a>
     </div>
