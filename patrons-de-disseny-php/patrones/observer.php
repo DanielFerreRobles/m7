@@ -63,8 +63,96 @@
 
             <div class="text-center mt-5">
                 <h3>EJEMPLO DE OBSERVER EN CÓDIGO</h3>
-                <img src="Descargas/observer.jpg" alt="observer" class="img-fluid rounded shadow-lg mt-4 w-75">
-            </div>
+                <pre class="code cm-s-default CodeMirror" lang="pseudocode"><span class="cm-doc">// La clase notificadora base incluye código de gestión de</span>
+<span class="cm-doc">// suscripciones y métodos de notificación.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">EventManager</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">field</span> <span class="cm-def3">listeners</span><span class="cm-bracket">:</span> <span class="cm-variable">hash</span> <span class="cm-variable">map</span> <span class="cm-variable">of</span> <span class="cm-variable">event</span> <span class="cm-variable">types</span> <span class="cm-keyword">and</span> <span class="cm-variable">listeners</span>
+
+    <span class="cm-keyword">method</span> <span class="cm-def3">subscribe</span><span class="cm-bracket">(</span><span class="cm-variable">eventType</span>, <span class="cm-variable">listener</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">listeners</span>.<span class="cm-variable">add</span><span class="cm-bracket">(</span><span class="cm-variable">eventType</span>, <span class="cm-variable">listener</span><span class="cm-bracket">)</span>
+
+    <span class="cm-keyword">method</span> <span class="cm-def3">unsubscribe</span><span class="cm-bracket">(</span><span class="cm-variable">eventType</span>, <span class="cm-variable">listener</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">listeners</span>.<span class="cm-variable">remove</span><span class="cm-bracket">(</span><span class="cm-variable">eventType</span>, <span class="cm-variable">listener</span><span class="cm-bracket">)</span>
+
+    <span class="cm-keyword">method</span> <span class="cm-def3">notify</span><span class="cm-bracket">(</span><span class="cm-variable">eventType</span>, <span class="cm-variable">data</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-keyword">foreach</span> <span class="cm-bracket">(</span><span class="cm-variable">listener</span> <span class="cm-variable">in</span> <span class="cm-variable">listeners</span>.<span class="cm-variable">of</span><span class="cm-bracket">(</span><span class="cm-variable">eventType</span><span class="cm-bracket">)</span><span class="cm-bracket">)</span> <span class="cm-variable">do</span>
+            <span class="cm-variable">listener</span>.<span class="cm-variable">update</span><span class="cm-bracket">(</span><span class="cm-variable">data</span><span class="cm-bracket">)</span>
+
+<span class="cm-doc">// El notificador concreto contiene lógica de negocio real, de</span>
+<span class="cm-doc">// interés para algunos suscriptores. Podemos derivar esta clase</span>
+<span class="cm-doc">// de la notificadora base, pero esto no siempre es posible en</span>
+<span class="cm-doc">// el mundo real porque puede que la notificadora concreta sea</span>
+<span class="cm-doc">// ya una subclase. En este caso, puedes modificar la lógica de</span>
+<span class="cm-doc">// la suscripción con composición, como hicimos aquí.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">Editor</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">public</span> <span class="cm-keyword">field</span> <span class="cm-def3">events</span><span class="cm-bracket">:</span> <span class="cm-variable">EventManager</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">field</span> <span class="cm-def3">file</span><span class="cm-bracket">:</span> <span class="cm-variable">File</span>
+
+    <span class="cm-keyword">constructor</span> <span class="cm-def3">Editor</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">events</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">EventManager</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+
+    <span class="cm-doc">// Los métodos de la lógica de negocio pueden notificar los</span>
+    <span class="cm-doc">// cambios a los suscriptores.</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">openFile</span><span class="cm-bracket">(</span><span class="cm-variable">path</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-atom">this</span>.<span class="cm-variable">file</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">File</span><span class="cm-bracket">(</span><span class="cm-variable">path</span><span class="cm-bracket">)</span>
+        <span class="cm-variable">events</span>.<span class="cm-variable">notify</span><span class="cm-bracket">(</span><span class="cm-string">"</span><span class="cm-string">o</span><span class="cm-string">p</span><span class="cm-string">e</span><span class="cm-string">n</span><span class="cm-string">"</span>, <span class="cm-variable">file</span>.<span class="cm-variable">name</span><span class="cm-bracket">)</span>
+
+    <span class="cm-keyword">method</span> <span class="cm-def3">saveFile</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">file</span>.<span class="cm-variable">write</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+        <span class="cm-variable">events</span>.<span class="cm-variable">notify</span><span class="cm-bracket">(</span><span class="cm-string">"</span><span class="cm-string">s</span><span class="cm-string">a</span><span class="cm-string">v</span><span class="cm-string">e</span><span class="cm-string">"</span>, <span class="cm-variable">file</span>.<span class="cm-variable">name</span><span class="cm-bracket">)</span>
+
+    <span class="cm-comment">// ...</span>
+
+
+<span class="cm-doc">// Aquí está la interfaz suscriptora. Si tu lenguaje de</span>
+<span class="cm-doc">// programación soporta tipos funcionales, puedes sustituir toda</span>
+<span class="cm-doc">// la jerarquía suscriptora por un grupo de funciones.</span>
+
+
+<span class="cm-keyword">interface</span> <span class="cm-def1">EventListener</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">update</span><span class="cm-bracket">(</span><span class="cm-variable">filename</span><span class="cm-bracket">)</span>
+
+<span class="cm-doc">// Los suscriptores concretos reaccionan a las actualizaciones</span>
+<span class="cm-doc">// emitidas por el notificador al que están unidos.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">LoggingListener</span> <span class="cm-keyword">implements</span> <span class="cm-def2">EventListener</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">field</span> <span class="cm-def3">log</span><span class="cm-bracket">:</span> <span class="cm-variable">File</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">field</span> <span class="cm-def3">message</span><span class="cm-bracket">:</span> <span class="cm-variable">string</span>
+
+    <span class="cm-keyword">constructor</span> <span class="cm-def3">LoggingListener</span><span class="cm-bracket">(</span><span class="cm-variable">log_filename</span>, <span class="cm-variable">message</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-atom">this</span>.<span class="cm-variable">log</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">File</span><span class="cm-bracket">(</span><span class="cm-variable">log_filename</span><span class="cm-bracket">)</span>
+        <span class="cm-atom">this</span>.<span class="cm-variable">message</span> <span class="cm-operator">=</span> <span class="cm-variable">message</span>
+
+    <span class="cm-keyword">method</span> <span class="cm-def3">update</span><span class="cm-bracket">(</span><span class="cm-variable">filename</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">log</span>.<span class="cm-variable">write</span><span class="cm-bracket">(</span><span class="cm-variable">replace</span><span class="cm-bracket">(</span><span class="cm-string">'</span><span class="cm-string">%</span><span class="cm-string">s</span><span class="cm-string">'</span>,<span class="cm-variable">filename</span>,<span class="cm-variable">message</span><span class="cm-bracket">)</span><span class="cm-bracket">)</span>
+
+<span class="cm-keyword">class</span> <span class="cm-def1">EmailAlertsListener</span> <span class="cm-keyword">implements</span> <span class="cm-def2">EventListener</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">field</span> <span class="cm-def3">email</span><span class="cm-bracket">:</span> <span class="cm-variable">string</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">field</span> <span class="cm-def3">message</span><span class="cm-bracket">:</span> <span class="cm-variable">string</span>
+
+    <span class="cm-keyword">constructor</span> <span class="cm-def3">EmailAlertsListener</span><span class="cm-bracket">(</span><span class="cm-variable">email</span>, <span class="cm-variable">message</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-atom">this</span>.<span class="cm-variable">email</span> <span class="cm-operator">=</span> <span class="cm-variable">email</span>
+        <span class="cm-atom">this</span>.<span class="cm-variable">message</span> <span class="cm-operator">=</span> <span class="cm-variable">message</span>
+
+    <span class="cm-keyword">method</span> <span class="cm-def3">update</span><span class="cm-bracket">(</span><span class="cm-variable">filename</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">system</span>.<span class="cm-variable">email</span><span class="cm-bracket">(</span><span class="cm-variable">email</span>, <span class="cm-variable">replace</span><span class="cm-bracket">(</span><span class="cm-string">'</span><span class="cm-string">%</span><span class="cm-string">s</span><span class="cm-string">'</span>,<span class="cm-variable">filename</span>,<span class="cm-variable">message</span><span class="cm-bracket">)</span><span class="cm-bracket">)</span>
+
+
+<span class="cm-doc">// Una  aplicación puede configurar notificadores y suscriptores</span>
+<span class="cm-doc">// durante el tiempo de ejecución.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">Application</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">config</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">editor</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Editor</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+
+        <span class="cm-variable">logger</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">LoggingListener</span><span class="cm-bracket">(</span>
+            <span class="cm-string">"</span><span class="cm-string">/</span><span class="cm-string">p</span><span class="cm-string">a</span><span class="cm-string">t</span><span class="cm-string">h</span><span class="cm-string">/</span><span class="cm-string">t</span><span class="cm-string">o</span><span class="cm-string">/</span><span class="cm-string">l</span><span class="cm-string">o</span><span class="cm-string">g</span><span class="cm-string">.</span><span class="cm-string">t</span><span class="cm-string">x</span><span class="cm-string">t</span><span class="cm-string">"</span>,
+            <span class="cm-string">"</span><span class="cm-string">S</span><span class="cm-string">o</span><span class="cm-string">m</span><span class="cm-string">e</span><span class="cm-string">o</span><span class="cm-string">n</span><span class="cm-string">e</span><span class="cm-string"> </span><span class="cm-string">h</span><span class="cm-string">a</span><span class="cm-string">s</span><span class="cm-string"> </span><span class="cm-string">o</span><span class="cm-string">p</span><span class="cm-string">e</span><span class="cm-string">n</span><span class="cm-string">e</span><span class="cm-string">d</span><span class="cm-string"> </span><span class="cm-string">t</span><span class="cm-string">h</span><span class="cm-string">e</span><span class="cm-string"> </span><span class="cm-string">f</span><span class="cm-string">i</span><span class="cm-string">l</span><span class="cm-string">e</span><span class="cm-string">:</span><span class="cm-string"> </span><span class="cm-string">%</span><span class="cm-string">s</span><span class="cm-string">"</span><span class="cm-bracket">)</span>
+        <span class="cm-variable">editor</span>.<span class="cm-variable">events</span>.<span class="cm-variable">subscribe</span><span class="cm-bracket">(</span><span class="cm-string">"</span><span class="cm-string">o</span><span class="cm-string">p</span><span class="cm-string">e</span><span class="cm-string">n</span><span class="cm-string">"</span>, <span class="cm-variable">logger</span><span class="cm-bracket">)</span>
+
+        <span class="cm-variable">emailAlerts</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">EmailAlertsListener</span><span class="cm-bracket">(</span>
+            <span class="cm-string">"</span><span class="cm-string">a</span><span class="cm-string">d</span><span class="cm-string">m</span><span class="cm-string">i</span><span class="cm-string">n</span><span class="cm-string">@</span><span class="cm-string">e</span><span class="cm-string">x</span><span class="cm-string">a</span><span class="cm-string">m</span><span class="cm-string">p</span><span class="cm-string">l</span><span class="cm-string">e</span><span class="cm-string">.</span><span class="cm-string">c</span><span class="cm-string">o</span><span class="cm-string">m</span><span class="cm-string">"</span>,
+            <span class="cm-string">"</span><span class="cm-string">S</span><span class="cm-string">o</span><span class="cm-string">m</span><span class="cm-string">e</span><span class="cm-string">o</span><span class="cm-string">n</span><span class="cm-string">e</span><span class="cm-string"> </span><span class="cm-string">h</span><span class="cm-string">a</span><span class="cm-string">s</span><span class="cm-string"> </span><span class="cm-string">c</span><span class="cm-string">h</span><span class="cm-string">a</span><span class="cm-string">n</span><span class="cm-string">g</span><span class="cm-string">e</span><span class="cm-string">d</span><span class="cm-string"> </span><span class="cm-string">t</span><span class="cm-string">h</span><span class="cm-string">e</span><span class="cm-string"> </span><span class="cm-string">f</span><span class="cm-string">i</span><span class="cm-string">l</span><span class="cm-string">e</span><span class="cm-string">:</span><span class="cm-string"> </span><span class="cm-string">%</span><span class="cm-string">s</span><span class="cm-string">"</span><span class="cm-bracket">)</span>
+        <span class="cm-variable">editor</span>.<span class="cm-variable">events</span>.<span class="cm-variable">subscribe</span><span class="cm-bracket">(</span><span class="cm-string">"</span><span class="cm-string">s</span><span class="cm-string">a</span><span class="cm-string">v</span><span class="cm-string">e</span><span class="cm-string">"</span>, <span class="cm-variable">emailAlerts</span><span class="cm-bracket">)</span>
+</pre>            </div>
 
         </div>
     </div>

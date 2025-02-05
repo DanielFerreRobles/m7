@@ -60,8 +60,70 @@
 
         <div class="text-center">
             <h4>EJEMPLO DE BRIDGE EN CÓDIGO</h4>
-            <img src="Descargas/bridge.jpg" alt="bridge" class="img-fluid rounded shadow-sm mb-4" style="max-width: 80%;">
-        </div>
+            <pre class="code cm-s-default CodeMirror" lang="pseudocode"><span class="cm-doc">// La "abstracción" define la interfaz para la parte de</span>
+<span class="cm-doc">// "control" de las dos jerarquías de clase. Mantiene una</span>
+<span class="cm-doc">// referencia a un objeto de la jerarquía de "implementación" y</span>
+<span class="cm-doc">// delega todo el trabajo real a este objeto.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">RemoteControl</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">protected</span> <span class="cm-keyword">field</span> <span class="cm-def3">device</span><span class="cm-bracket">:</span> <span class="cm-variable">Device</span>
+    <span class="cm-keyword">constructor</span> <span class="cm-def3">RemoteControl</span><span class="cm-bracket">(</span><span class="cm-variable">device</span><span class="cm-bracket">:</span> <span class="cm-variable">Device</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-atom">this</span>.<span class="cm-variable">device</span> <span class="cm-operator">=</span> <span class="cm-variable">device</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">togglePower</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-keyword">if</span> <span class="cm-bracket">(</span><span class="cm-variable">device</span>.<span class="cm-variable">isEnabled</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span><span class="cm-bracket">)</span> <span class="cm-keyword">then</span>
+            <span class="cm-variable">device</span>.<span class="cm-variable">disable</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+        <span class="cm-keyword">else</span>
+            <span class="cm-variable">device</span>.<span class="cm-variable">enable</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">volumeDown</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">device</span>.<span class="cm-variable">setVolume</span><span class="cm-bracket">(</span><span class="cm-variable">device</span>.<span class="cm-variable">getVolume</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-operator">-</span> <span class="cm-number">10</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">volumeUp</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">device</span>.<span class="cm-variable">setVolume</span><span class="cm-bracket">(</span><span class="cm-variable">device</span>.<span class="cm-variable">getVolume</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-operator">+</span> <span class="cm-number">10</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">channelDown</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">device</span>.<span class="cm-variable">setChannel</span><span class="cm-bracket">(</span><span class="cm-variable">device</span>.<span class="cm-variable">getChannel</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-operator">-</span> <span class="cm-number">1</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">channelUp</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">device</span>.<span class="cm-variable">setChannel</span><span class="cm-bracket">(</span><span class="cm-variable">device</span>.<span class="cm-variable">getChannel</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-operator">+</span> <span class="cm-number">1</span><span class="cm-bracket">)</span>
+
+
+<span class="cm-doc">// Puedes extender clases de la jerarquía de abstracción</span>
+<span class="cm-doc">// independientemente de las clases de dispositivo.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">AdvancedRemoteControl</span> <span class="cm-keyword">extends</span> <span class="cm-def2">RemoteControl</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">mute</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">device</span>.<span class="cm-variable">setVolume</span><span class="cm-bracket">(</span><span class="cm-number">0</span><span class="cm-bracket">)</span>
+
+
+<span class="cm-doc">// La interfaz de "implementación" declara métodos comunes a</span>
+<span class="cm-doc">// todas las clases concretas de implementación. No tiene por</span>
+<span class="cm-doc">// qué coincidir con la interfaz de la abstracción. De hecho,</span>
+<span class="cm-doc">// las dos interfaces pueden ser completamente diferentes.</span>
+<span class="cm-doc">// Normalmente, la interfaz de implementación únicamente</span>
+<span class="cm-doc">// proporciona operaciones primitivas, mientras que la</span>
+<span class="cm-doc">// abstracción define operaciones de más alto nivel con base en</span>
+<span class="cm-doc">// las primitivas.</span>
+<span class="cm-keyword">interface</span> <span class="cm-def1">Device</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">isEnabled</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">enable</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">disable</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">getVolume</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">setVolume</span><span class="cm-bracket">(</span><span class="cm-variable">percent</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">getChannel</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">setChannel</span><span class="cm-bracket">(</span><span class="cm-variable">channel</span><span class="cm-bracket">)</span>
+
+
+<span class="cm-doc">// Todos los dispositivos siguen la misma interfaz.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">Tv</span> <span class="cm-keyword">implements</span> <span class="cm-def2">Device</span> <span class="cm-keyword">is</span>
+    <span class="cm-comment">// ...</span>
+
+<span class="cm-keyword">class</span> <span class="cm-def1">Radio</span> <span class="cm-keyword">implements</span> <span class="cm-def2">Device</span> <span class="cm-keyword">is</span>
+    <span class="cm-comment">// ...</span>
+
+
+<span class="cm-doc">// En algún lugar del código cliente.</span>
+<span class="cm-variable">tv</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Tv</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+<span class="cm-variable">remote</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">RemoteControl</span><span class="cm-bracket">(</span><span class="cm-variable">tv</span><span class="cm-bracket">)</span>
+<span class="cm-variable">remote</span>.<span class="cm-variable">togglePower</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+
+<span class="cm-variable">radio</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Radio</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+<span class="cm-variable">remote</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">AdvancedRemoteControl</span><span class="cm-bracket">(</span><span class="cm-variable">radio</span><span class="cm-bracket">)</span>
+</pre>        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

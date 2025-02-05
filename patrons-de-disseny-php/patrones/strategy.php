@@ -66,7 +66,74 @@
 
             <div class="text-center mt-5">
                 <h3>EJEMPLO DE STRATEGY EN CÓDIGO</h3>
-                <img src="Descargas/strategy.jpg" alt="strategy" class="img-fluid rounded shadow-lg mt-4 w-75">
+                <pre class="code cm-s-default CodeMirror" lang="pseudocode"><span class="cm-doc">// La interfaz estrategia declara operaciones comunes a todas</span>
+<span class="cm-doc">// las versiones soportadas de algún algoritmo. El contexto</span>
+<span class="cm-doc">// utiliza esta interfaz para invocar el algoritmo definido por</span>
+<span class="cm-doc">// las estrategias concretas.</span>
+<span class="cm-keyword">interface</span> <span class="cm-def1">Strategy</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">execute</span><span class="cm-bracket">(</span><span class="cm-variable">a</span>, <span class="cm-variable">b</span><span class="cm-bracket">)</span>
+
+<span class="cm-doc">// Las estrategias concretas implementan el algoritmo mientras</span>
+<span class="cm-doc">// siguen la interfaz estrategia base. La interfaz las hace</span>
+<span class="cm-doc">// intercambiables en el contexto.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">ConcreteStrategyAdd</span> <span class="cm-keyword">implements</span> <span class="cm-def2">Strategy</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">execute</span><span class="cm-bracket">(</span><span class="cm-variable">a</span>, <span class="cm-variable">b</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-keyword">return</span> <span class="cm-variable">a</span> <span class="cm-operator">+</span> <span class="cm-variable">b</span>
+
+<span class="cm-keyword">class</span> <span class="cm-def1">ConcreteStrategySubtract</span> <span class="cm-keyword">implements</span> <span class="cm-def2">Strategy</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">execute</span><span class="cm-bracket">(</span><span class="cm-variable">a</span>, <span class="cm-variable">b</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-keyword">return</span> <span class="cm-variable">a</span> <span class="cm-operator">-</span> <span class="cm-variable">b</span>
+
+<span class="cm-keyword">class</span> <span class="cm-def1">ConcreteStrategyMultiply</span> <span class="cm-keyword">implements</span> <span class="cm-def2">Strategy</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">execute</span><span class="cm-bracket">(</span><span class="cm-variable">a</span>, <span class="cm-variable">b</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-keyword">return</span> <span class="cm-variable">a</span> <span class="cm-operator">*</span> <span class="cm-variable">b</span>
+
+<span class="cm-doc">// El contexto define la interfaz de interés para los clientes.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">Context</span> <span class="cm-keyword">is</span>
+    <span class="cm-doc">// El contexto mantiene una referencia a uno de los objetos</span>
+    <span class="cm-doc">// de estrategia. El contexto no conoce la clase concreta de</span>
+    <span class="cm-doc">// una estrategia. Debe trabajar con todas las estrategias a</span>
+    <span class="cm-doc">// través de la interfaz estrategia.</span>
+    <span class="cm-keyword">private</span> <span class="cm-def3">strategy</span><span class="cm-bracket">:</span> <span class="cm-variable">Strategy</span>
+
+    <span class="cm-doc">// Normalmente, el contexto acepta una estrategia a través</span>
+    <span class="cm-doc">// del constructor y también proporciona un setter</span>
+    <span class="cm-doc">// (modificador) para poder cambiar la estrategia durante el</span>
+    <span class="cm-doc">// tiempo de ejecución.</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">setStrategy</span><span class="cm-bracket">(</span><span class="cm-variable">Strategy</span> <span class="cm-variable">strategy</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-atom">this</span>.<span class="cm-variable">strategy</span> <span class="cm-operator">=</span> <span class="cm-variable">strategy</span>
+
+    <span class="cm-doc">// El contexto delega parte del trabajo al objeto de</span>
+    <span class="cm-doc">// estrategia en lugar de implementar varias versiones del</span>
+    <span class="cm-doc">// algoritmo por su cuenta.</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">executeStrategy</span><span class="cm-bracket">(</span><span class="cm-variable">int</span> <span class="cm-variable">a</span>, <span class="cm-variable">int</span> <span class="cm-variable">b</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-keyword">return</span> <span class="cm-variable">strategy</span>.<span class="cm-variable">execute</span><span class="cm-bracket">(</span><span class="cm-variable">a</span>, <span class="cm-variable">b</span><span class="cm-bracket">)</span>
+
+
+<span class="cm-doc">// El código cliente elige una estrategia concreta y la pasa al</span>
+<span class="cm-doc">// contexto. El cliente debe conocer las diferencias entre</span>
+<span class="cm-doc">// estrategias para elegir la mejor opción.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">ExampleApplication</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">main</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">Create</span> <span class="cm-variable">context</span> <span class="cm-variable">object</span>.
+
+        <span class="cm-variable">Read</span> <span class="cm-variable">first</span> <span class="cm-variable">number</span>.
+        <span class="cm-variable">Read</span> <span class="cm-variable">last</span> <span class="cm-variable">number</span>.
+        <span class="cm-variable">Read</span> <span class="cm-variable">the</span> <span class="cm-variable">desired</span> <span class="cm-variable">action</span> <span class="cm-variable">from</span> <span class="cm-variable">user</span> <span class="cm-variable">input</span>.
+
+        <span class="cm-keyword">if</span> <span class="cm-bracket">(</span><span class="cm-variable">action</span> <span class="cm-operator">=</span><span class="cm-operator">=</span> <span class="cm-variable">addition</span><span class="cm-bracket">)</span> <span class="cm-keyword">then</span>
+            <span class="cm-variable">context</span>.<span class="cm-variable">setStrategy</span><span class="cm-bracket">(</span><span class="cm-keyword">new</span> <span class="cm-variable">ConcreteStrategyAdd</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span><span class="cm-bracket">)</span>
+
+        <span class="cm-keyword">if</span> <span class="cm-bracket">(</span><span class="cm-variable">action</span> <span class="cm-operator">=</span><span class="cm-operator">=</span> <span class="cm-variable">subtraction</span><span class="cm-bracket">)</span> <span class="cm-keyword">then</span>
+            <span class="cm-variable">context</span>.<span class="cm-variable">setStrategy</span><span class="cm-bracket">(</span><span class="cm-keyword">new</span> <span class="cm-variable">ConcreteStrategySubtract</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span><span class="cm-bracket">)</span>
+
+        <span class="cm-keyword">if</span> <span class="cm-bracket">(</span><span class="cm-variable">action</span> <span class="cm-operator">=</span><span class="cm-operator">=</span> <span class="cm-variable">multiplication</span><span class="cm-bracket">)</span> <span class="cm-keyword">then</span>
+            <span class="cm-variable">context</span>.<span class="cm-variable">setStrategy</span><span class="cm-bracket">(</span><span class="cm-keyword">new</span> <span class="cm-variable">ConcreteStrategyMultiply</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span><span class="cm-bracket">)</span>
+
+        <span class="cm-variable">result</span> <span class="cm-operator">=</span> <span class="cm-variable">context</span>.<span class="cm-variable">executeStrategy</span><span class="cm-bracket">(</span><span class="cm-variable">First</span> <span class="cm-variable">number</span>, <span class="cm-variable">Second</span> <span class="cm-variable">number</span><span class="cm-bracket">)</span>
+
+        <span class="cm-variable">Print</span> <span class="cm-variable">result</span>.
+</pre>
             </div>
 
         </div>

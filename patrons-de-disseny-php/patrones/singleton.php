@@ -62,8 +62,53 @@
         </div>
         <div class="text-center mt-5">
             <h3>EJEMPLO DE SINGLETON EN CÓDIGO</h3>
-            <img src="https://resources.theframework.es/eduardoaf.com/20200916/patron-singleton-en-php.jpg" alt="bds" class="img-fluid rounded shadow-lg mt-4 w-75">
-        </div>
+            <pre class="code cm-s-default CodeMirror" lang="pseudocode"><span class="cm-doc">// La clase Base de datos define el método `obtenerInstancia`</span>
+<span class="cm-doc">// que permite a los clientes acceder a la misma instancia de</span>
+<span class="cm-doc">// una conexión de la base de datos a través del programa.</span>
+<span class="cm-keyword">class</span> <span class="cm-def1">Database</span> <span class="cm-keyword">is</span>
+    <span class="cm-doc">// El campo para almacenar la instancia singleton debe</span>
+    <span class="cm-doc">// declararse estático.</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">static</span> <span class="cm-keyword">field</span> <span class="cm-def3">instance</span><span class="cm-bracket">:</span> <span class="cm-variable">Database</span>
+
+    <span class="cm-doc">// El constructor del singleton siempre debe ser privado</span>
+    <span class="cm-doc">// para evitar llamadas de construcción directas con el</span>
+    <span class="cm-doc">// operador `new`.</span>
+    <span class="cm-keyword">private</span> <span class="cm-keyword">constructor</span> <span class="cm-def3">Database</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-doc">// Algún código de inicialización, como la propia</span>
+        <span class="cm-doc">// conexión al servidor de una base de datos.</span>
+        <span class="cm-comment">// ...</span>
+
+    <span class="cm-doc">// El método estático que controla el acceso a la instancia</span>
+    <span class="cm-doc">// singleton.</span>
+    <span class="cm-keyword">public</span> <span class="cm-keyword">static</span> <span class="cm-keyword">method</span> <span class="cm-def3">getInstance</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-keyword">if</span> <span class="cm-bracket">(</span><span class="cm-variable">Database</span>.<span class="cm-variable">instance</span> <span class="cm-operator">=</span><span class="cm-operator">=</span> <span class="cm-atom">null</span><span class="cm-bracket">)</span> <span class="cm-keyword">then</span>
+            <span class="cm-variable">acquireThreadLock</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">and</span> <span class="cm-keyword">then</span>
+                <span class="cm-doc">// Garantiza que la instancia aún no se ha</span>
+                <span class="cm-doc">// inicializado por otro hilo mientras ésta ha</span>
+                <span class="cm-doc">// estado esperando el desbloqueo.</span>
+                <span class="cm-keyword">if</span> <span class="cm-bracket">(</span><span class="cm-variable">Database</span>.<span class="cm-variable">instance</span> <span class="cm-operator">=</span><span class="cm-operator">=</span> <span class="cm-atom">null</span><span class="cm-bracket">)</span> <span class="cm-keyword">then</span>
+                    <span class="cm-variable">Database</span>.<span class="cm-variable">instance</span> <span class="cm-operator">=</span> <span class="cm-keyword">new</span> <span class="cm-variable">Database</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+        <span class="cm-keyword">return</span> <span class="cm-variable">Database</span>.<span class="cm-variable">instance</span>
+
+    <span class="cm-doc">// Por último, cualquier singleton debe definir cierta</span>
+    <span class="cm-doc">// lógica de negocio que pueda ejecutarse en su instancia.</span>
+    <span class="cm-keyword">public</span> <span class="cm-keyword">method</span> <span class="cm-def3">query</span><span class="cm-bracket">(</span><span class="cm-variable">sql</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-doc">// Por ejemplo, todas las consultas a la base de datos</span>
+        <span class="cm-doc">// de una aplicación pasan por este método. Por lo</span>
+        <span class="cm-doc">// tanto, aquí puedes colocar lógica de regularización</span>
+        <span class="cm-doc">// (throttling) o de envío a la memoria caché.</span>
+        <span class="cm-comment">// ...</span>
+
+<span class="cm-keyword">class</span> <span class="cm-def1">Application</span> <span class="cm-keyword">is</span>
+    <span class="cm-keyword">method</span> <span class="cm-def3">main</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span> <span class="cm-keyword">is</span>
+        <span class="cm-variable">Database</span> <span class="cm-variable">foo</span> <span class="cm-operator">=</span> <span class="cm-variable">Database</span>.<span class="cm-variable">getInstance</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+        <span class="cm-variable">foo</span>.<span class="cm-variable">query</span><span class="cm-bracket">(</span><span class="cm-string">"</span><span class="cm-string">S</span><span class="cm-string">E</span><span class="cm-string">L</span><span class="cm-string">E</span><span class="cm-string">C</span><span class="cm-string">T</span><span class="cm-string"> </span><span class="cm-string">.</span><span class="cm-string">.</span><span class="cm-string">.</span><span class="cm-string">"</span><span class="cm-bracket">)</span>
+        <span class="cm-comment">// ...</span>
+        <span class="cm-variable">Database</span> <span class="cm-variable">bar</span> <span class="cm-operator">=</span> <span class="cm-variable">Database</span>.<span class="cm-variable">getInstance</span><span class="cm-bracket">(</span><span class="cm-bracket">)</span>
+        <span class="cm-variable">bar</span>.<span class="cm-variable">query</span><span class="cm-bracket">(</span><span class="cm-string">"</span><span class="cm-string">S</span><span class="cm-string">E</span><span class="cm-string">L</span><span class="cm-string">E</span><span class="cm-string">C</span><span class="cm-string">T</span><span class="cm-string"> </span><span class="cm-string">.</span><span class="cm-string">.</span><span class="cm-string">.</span><span class="cm-string">"</span><span class="cm-bracket">)</span>
+        <span class="cm-doc">// La variable `bar` contendrá el mismo objeto que la</span>
+        <span class="cm-doc">// variable `foo`.</span>
+</pre>        </div>
 
     </div>
 
